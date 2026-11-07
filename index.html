@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1210"><title>Panda Modz</title>
+<style>
+:root{color-scheme:dark;--bg:#090e0c;--card:#121b16;--ink:#eff8f1;--muted:#91a399;--line:#26372c;--green:#39d982;--green2:#20a960;--red:#ff6262}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 10% 10%,#163d29 0,transparent 38%),radial-gradient(circle at 90% 90%,#123522 0,transparent 35%),var(--bg);font-family:Inter,system-ui,Arial;color:var(--ink)}
+.card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:30px 24px 24px;text-align:center;box-shadow:0 24px 70px #0008;position:relative}
+.lang{position:absolute;right:15px;top:15px;display:flex;border:1px solid var(--line);border-radius:30px;overflow:hidden}.lang button{background:none;border:0;color:var(--muted);padding:7px 11px;font-weight:700}.lang .on{background:var(--green);color:#06150c}
+.logo{width:92px;height:92px;margin:18px auto 12px}h1{margin:0;font-size:30px;letter-spacing:-1px}h1 span{color:var(--green)}.tag{color:var(--muted);margin:7px 0 19px}.badge{display:inline-block;color:var(--green);background:#39d98218;padding:7px 13px;border-radius:30px;font-size:11px;font-weight:800;letter-spacing:1.4px;margin-bottom:22px}
+label{display:block;text-align:left;color:var(--muted);font-size:12px;margin:0 0 7px 4px}input{width:100%;padding:16px;border-radius:13px;border:1px solid var(--line);background:#0b120e;color:var(--ink);font:700 16px ui-monospace,monospace;letter-spacing:1px;outline:none}input:focus{border-color:var(--green)}
+.btn{width:100%;margin-top:12px;padding:16px;border:0;border-radius:13px;background:var(--green);color:#06150c;font-weight:900;letter-spacing:1px;cursor:pointer}.btn:disabled{opacity:.6}.msg{min-height:22px;font-size:13px;margin:12px 0 0}.err{color:var(--red)}.ok{color:var(--green)}.note{font-size:12px;color:var(--muted);line-height:1.5;margin:8px 0 18px}.tg{display:block;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:13px;padding:13px;font-weight:700;font-size:14px}.foot{color:var(--muted);font-size:11px;margin-top:18px}
+</style></head>
+<body><main class="card">
+<div class="lang"><button id="ru" class="on">RU</button><button id="en">EN</button></div>
+<svg class="logo" viewBox="0 0 100 100" aria-label="Panda"><circle cx="22" cy="24" r="14" fill="#080d0a"/><circle cx="78" cy="24" r="14" fill="#080d0a"/><circle cx="50" cy="55" r="38" fill="#fff" stroke="#080d0a" stroke-width="3"/><ellipse cx="34" cy="50" rx="10" ry="13" fill="#080d0a" transform="rotate(-20 34 50)"/><ellipse cx="66" cy="50" rx="10" ry="13" fill="#080d0a" transform="rotate(20 66 50)"/><circle cx="35" cy="49" r="3.5" fill="#fff"/><circle cx="65" cy="49" r="3.5" fill="#fff"/><ellipse cx="50" cy="64" rx="5" ry="3.5" fill="#080d0a"/><path d="M43 71q7 6 14 0" stroke="#080d0a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+<h1>Panda <span>Modz</span></h1><p class="tag" data-k="tag"></p><div class="badge" data-k="badge"></div>
+<label for="key" data-k="label"></label><input id="key" autocomplete="off" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+<button class="btn" id="go" data-k="btn"></button><p class="msg" id="msg"></p><p class="note" data-k="note"></p>
+<a class="tg" href="https://t.me/PANDA_M0DZ" target="_blank" rel="noopener">✈ <span data-k="tg"></span></a><div class="foot">Panda Modz © 2026</div>
+</main>
+<script>
+const T={ru:{tag:"Твой доступ. Твой сервер.",badge:"ОФИЦИАЛЬНЫЙ ДОСТУП",label:"Ключ активации",btn:"АКТИВИРОВАТЬ",note:"Срок действия начинается при первой активации. Лимит устройств задаётся ключом.",tg:"Panda Modz · Получить ключ",empty:"Введите ключ активации",bad:"Неверный формат ключа",wait:"Проверка…",ok:"Ключ успешно активирован",fail:"Ошибка соединения"},en:{tag:"Your access. Your server.",badge:"OFFICIAL ACCESS",label:"Activation key",btn:"ACTIVATE",note:"Validity starts on first activation. Device limit is set by the key.",tg:"Panda Modz · Get key",empty:"Enter your activation key",bad:"Invalid key format",wait:"Checking…",ok:"Key activated successfully",fail:"Connection error"}};
+let lang="ru";const $=s=>document.querySelector(s),msg=$("#msg");
+function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll("[data-k]").forEach(e=>e.textContent=T[l][e.dataset.k]);$("#ru").classList.toggle("on",l==="ru");$("#en").classList.toggle("on",l==="en");}
+$("#ru").onclick=()=>setLang("ru");$("#en").onclick=()=>setLang("en");setLang("ru");
+$("#key").addEventListener("input",e=>{let v=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,16);e.target.value=v.replace(/(.{4})(?=.)/g,"$1-");});
+function deviceId(){let id=localStorage.getItem("pm-device");if(!id){id=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random();localStorage.setItem("pm-device",id)}return id}
+$("#go").onclick=async()=>{const key=$("#key").value.trim();if(!key){msg.textContent=T[lang].empty;msg.className="msg err";return}if(!/^[A-Z0-9]{4}(?:-[A-Z0-9]{4}){3}$/.test(key)){msg.textContent=T[lang].bad;msg.className="msg err";return}
+const b=$("#go");b.disabled=true;msg.textContent=T[lang].wait;msg.className="msg";
+try{const r=await fetch("/api/activate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key,deviceId:deviceId()})});const d=await r.json();msg.textContent=d.message||(d.ok?T[lang].ok:T[lang].fail);msg.className="msg "+(d.ok?"ok":"err")}catch(e){msg.textContent=T[lang].fail;msg.className="msg err"}finally{b.disabled=false}};
+</script></body></html>
